@@ -214,6 +214,100 @@ Console {
   CommandACL = status, .status
 }
 ```
+- bacula-sd.conf:
+```
+Storage {                             # definition of myself
+  Name = hw-10-4-n1-sd
+  SDPort = 9103                  # Director's port
+  WorkingDirectory = "/var/lib/bacula"
+  Pid Directory = "/run/bacula"
+  Plugin Directory = "/usr/lib/bacula"
+  Maximum Concurrent Jobs = 20
+  SDAddress = 127.0.0.1
+}
+
+
+Director {
+  Name = hw-10-4-n1-dir
+  Password = "qwerty12345"
+}
+
+
+Director {
+  Name = hw-10-4-n1-mon
+  Password = "qwerty12345"
+  Monitor = yes
+}
+
+
+Autochanger {
+  Name = FileChgr1
+  Device = FileChgr1-Dev1, FileChgr1-Dev2
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileChgr1-Dev1
+  Media Type = File1
+  Archive Device = /nonexistant/path/to/file/archive/dir
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Device {
+  Name = FileChgr1-Dev2
+  Media Type = File1
+  Archive Device = /nonexistant/path/to/file/archive/dir
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Autochanger {
+  Name = FileChgr2
+  Device = FileChgr2-Dev1, FileChgr2-Dev2
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileChgr2-Dev1
+  Media Type = File2
+  Archive Device = /nonexistant/path/to/file/archive/dir
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Device {
+  Name = FileChgr2-Dev2
+  Media Type = File2
+  Archive Device = /nonexistant/path/to/file/archive/dir
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+
+Messages {
+  Name = Standard
+  director = hw-10-4-n1-dir = all
+}
+```
 
 ---
 
