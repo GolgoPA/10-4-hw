@@ -27,8 +27,8 @@
 
 *Пришлите конфигурационные файлы для bacula-dir, bacula-sd,  bacula-fd.*
 
-- bacula-dir: <
-#
+- bacula-dir:
+<#
 # Default Bacula Director Configuration file
 #
 #  The only thing that MUST be changed is to add one or more
@@ -55,8 +55,7 @@ Director {                            # define myself
   Password = "qwerty12345"         # Console password
   Messages = Daemon
   DirAddress = 127.0.0.1
-}
->
+}>
 
 ---
 
