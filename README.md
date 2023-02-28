@@ -43,7 +43,6 @@ Director {                            # define myself
 }
 
 
-...skipping 1 line
   Name = "DefaultJob"
   Type = Backup
   Level = Incremental
@@ -71,11 +70,7 @@ Job {
   Level = Full
   FileSet="Catalog"
   Schedule = "WeeklyCycleAfterBackup"
-  # This creates an ASCII copy of the catalog
-  # Arguments to make_catalog_backup.pl are:
-  #  make_catalog_backup.pl <catalog-name>
   RunBeforeJob = "/etc/bacula/scripts/make_catalog_backup.pl MyCatalog"
-  # This deletes the copy of the catalog
   RunAfterJob  = "/etc/bacula/scripts/delete_catalog_backup"
   Write Bootstrap = "/var/lib/bacula/%n.bsr"
   Priority = 11                   # run after main backup
@@ -119,8 +114,6 @@ FileSet {
 
 Schedule {
   Name = "WeeklyCycle"
-
-...skipping 1 line
   Run = Differential 2nd-5th sun at 23:05
   Run = Incremental mon-sat at 23:05
 }
@@ -150,8 +143,6 @@ Client {
   Catalog = MyCatalog
   Password = "qwerty12345"          # password for FileDaemon
   File Retention = 60 days            # 60 days
-
-...skipping 1 line
   AutoPrune = yes                     # Prune expired Jobs/Files
 }
 
@@ -182,7 +173,6 @@ Autochanger {
   Maximum Concurrent Jobs = 10        # run up to 10 jobs a the same time
 }
 
-...skipping 1 line
 Catalog {
   Name = MyCatalog
   dbname = "bacula"; DB Address = "localhost"; dbuser = "bacula"; dbpassword = "qwerty12345"
@@ -201,7 +191,6 @@ Messages {
   console = all, !skipped, !saved
 
 
-...skipping 1 line
 
   append = "/var/log/bacula/bacula.log" = all, !skipped
   catalog = all
