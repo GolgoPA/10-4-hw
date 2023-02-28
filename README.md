@@ -26,9 +26,8 @@
 Установите программное обеспечении Bacula, настройте bacula-dir, bacula-sd,  bacula-fd. Протестируйте работу сервисов.
 
 *Пришлите конфигурационные файлы для bacula-dir, bacula-sd,  bacula-fd.*
-
-- bacula-dir:
-<Director {                            # define myself
+ bacula-dir.conf: 
+  Director {                            # define myself
   Name = hw-10-4-n1-dir
   DIRport = 9101                # where we listen for UA connections
   QueryFile = "/etc/bacula/scripts/query.sql"
@@ -38,7 +37,7 @@
   Password = "qwerty12345"         # Console password
   Messages = Daemon
   DirAddress = 127.0.0.1
-}>
+}
 
 
 ---
