@@ -28,8 +28,6 @@
 *Пришлите конфигурационные файлы для bacula-dir, bacula-sd,  bacula-fd.*
  bacula-dir.conf: 
 ```
-
-
 Director {                            # define myself
   Name = hw-10-4-n1-dir
   DIRport = 9101                # where we listen for UA connections
@@ -42,7 +40,7 @@ Director {                            # define myself
   DirAddress = 127.0.0.1
 }
 
-
+JobDefs {
   Name = "DefaultJob"
   Type = Backup
   Level = Incremental
@@ -57,12 +55,10 @@ Director {                            # define myself
   Write Bootstrap = "/var/lib/bacula/%c.bsr"
 }
 
-
 Job {
   Name = "BackupClient1"
   JobDefs = "DefaultJob"
 }
-
 
 Job {
   Name = "BackupCatalog"
@@ -76,7 +72,6 @@ Job {
   Priority = 11                   # run after main backup
 }
 
-
 Job {
   Name = "RestoreFiles"
   Type = Restore
@@ -88,17 +83,14 @@ Job {
   Where = /nonexistant/path/to/file/archive/dir/bacula-restores
 }
 
-
 FileSet {
   Name = "Full Set"
   Include {
     Options {
       signature = MD5
     }
-
     File = /usr/sbin
   }
-
 
   Exclude {
     File = /var/lib/bacula
@@ -111,19 +103,17 @@ FileSet {
   }
 }
 
-
 Schedule {
   Name = "WeeklyCycle"
+  Run = Full 1st sun at 23:05
   Run = Differential 2nd-5th sun at 23:05
   Run = Incremental mon-sat at 23:05
 }
-
 
 Schedule {
   Name = "WeeklyCycleAfterBackup"
   Run = Full sun-sat at 23:10
 }
-
 
 FileSet {
   Name = "Catalog"
@@ -135,7 +125,6 @@ FileSet {
   }
 }
 
-
 Client {
   Name = hw-10-4-n1-fd
   Address = localhost
@@ -143,11 +132,9 @@ Client {
   Catalog = MyCatalog
   Password = "qwerty12345"          # password for FileDaemon
   File Retention = 60 days            # 60 days
+  Job Retention = 6 months            # six months
   AutoPrune = yes                     # Prune expired Jobs/Files
 }
-
-
-
 
 Autochanger {
   Name = File1
@@ -157,10 +144,8 @@ Autochanger {
   Device = FileChgr1
   Media Type = File1
   Maximum Concurrent Jobs = 10        # run up to 10 jobs a the same time
-
-...skipping 1 line
+  Autochanger = File1                 # point to ourself
 }
-
 
 Autochanger {
   Name = File2
@@ -178,24 +163,16 @@ Catalog {
   dbname = "bacula"; DB Address = "localhost"; dbuser = "bacula"; dbpassword = "qwerty12345"
 }
 
-
 Messages {
   Name = Standard
-
-
-
   mailcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula: %t %e of %c %l\" %r"
   operatorcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula: Intervention needed for %j\" %r"
   mail = root = all, !skipped
   operator = root = mount
   console = all, !skipped, !saved
-
-
-
   append = "/var/log/bacula/bacula.log" = all, !skipped
   catalog = all
 }
-
 
 Messages {
   Name = Daemon
@@ -216,8 +193,7 @@ Pool {
 }
 
 Pool {
-
-...skipping 1 line
+  Name = File
   Pool Type = Backup
   Recycle = yes                       # Bacula can automatically recycle Volumes
   AutoPrune = yes                     # Prune expired volumes
@@ -227,19 +203,16 @@ Pool {
   Label Format = "Vol-"               # Auto label
 }
 
-
 Pool {
   Name = Scratch
   Pool Type = Backup
 }
-
 
 Console {
   Name = hw-10-4-n1-mon
   Password = "qwerty12345"
   CommandACL = status, .status
 }
-
 ```
 
 ---
