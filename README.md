@@ -27,6 +27,36 @@
 
 *Пришлите конфигурационные файлы для bacula-dir, bacula-sd,  bacula-fd.*
 
+- bacula-dir:
+> #
+# Default Bacula Director Configuration file
+#
+#  The only thing that MUST be changed is to add one or more
+#   file or directory names in the Include directive of the
+#   FileSet resource.
+#
+#  For Bacula release 9.6.7 (10 December 2020) -- debian bullseye/sid
+#
+#  You might also want to change the default email address
+#   from root to your address.  See the "mail" and "operator"
+#   directives in the Messages resource.
+#
+# Copyright (C) 2000-2020 Kern Sibbald
+# License: BSD 2-Clause; see file LICENSE-FOSS
+#
+
+Director {                            # define myself
+  Name = hw-10-4-n1-dir
+  DIRport = 9101                # where we listen for UA connections
+  QueryFile = "/etc/bacula/scripts/query.sql"
+  WorkingDirectory = "/var/lib/bacula"
+  PidDirectory = "/run/bacula"
+  Maximum Concurrent Jobs = 20
+  Password = "qwerty12345"         # Console password
+  Messages = Daemon
+  DirAddress = 127.0.0.1
+}
+
 ---
 
 ### Задание 3
