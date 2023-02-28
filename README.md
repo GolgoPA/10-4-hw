@@ -308,6 +308,34 @@ Messages {
   director = hw-10-4-n1-dir = all
 }
 ```
+- bacula-fd.conf:
+```
+Director {
+  Name = hw-10-4-n1-dir
+  Password = "qwerty12345"
+}
+
+Director {
+  Name = hw-10-4-n1-mon
+  Password = "qwerty12345"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = hw-10-4-n1-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 127.0.0.1
+}
+
+Messages {
+  Name = Standard
+  director = hw-10-4-n1-dir = all, !skipped, !restored
+}
+```
 
 ---
 
