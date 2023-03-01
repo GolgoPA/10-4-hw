@@ -347,14 +347,20 @@ Messages {
 
 ---
 
-### Задание со звёздочкой*
-Это задание дополнительное. Его можно не выполнять. На зачёт это не повлияет. Вы можете его выполнить, если хотите глубже разобраться в материале.
-
----
-
-### Задание 4*
-
-Настройте резервное копирование двумя или более методами, используя одну из рассмотренных команд для папки /etc/default. Проверьте резервное копирование.
-
-*Пришлите рабочую конфигурацию выбранного сервиса по поставленной задаче.*
-
+- backaup-node1.sh:
+```
+#/bin/bash
+date
+syst_dir=/backup/
+srv_name=node1
+srv_ip=192.168.1.2
+srv_user=backup
+srv_dir=data
+echo "Start backup ${srv_name}"
+# Создаем папку для инкрементных бэкапов
+mkdir -p ${syst_dir}${srv_name}/increment/
+rsync -avz --progress --delete --password-file=/etc/rsyncd.scrt ${srv_user}@${srv_ip}::${srv_dir} ${syst_dir}${srv_name}/current/ --backup --backup-dir=${syst_dir}${srv_name}/increment/`date +%Y-%m-%d`/
+find ${syst_dir}${srv_name}/increment/ -maxdepth 1 -type d -mtime +30 -exec rm -rf {} \;
+date
+echo "Finish backup ${srv_name}"
+```
