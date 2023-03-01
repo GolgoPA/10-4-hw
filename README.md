@@ -353,7 +353,6 @@ pid file = /var/run/rsyncd.pid
 log file = /var/log/rsyncd.log
 transfer logging = true
 munge symlinks = yes
-# папка источник для бэкапа
 [data]
 path = /test
 uid = root
@@ -379,7 +378,6 @@ srv_ip=192.168.1.2
 srv_user=backup
 srv_dir=data
 echo "Start backup ${srv_name}"
-# Создаем папку для инкрементных бэкапов
 mkdir -p ${syst_dir}${srv_name}/increment/
 rsync -avz --progress --delete --password-file=/etc/rsyncd.scrt ${srv_user}@${srv_ip}::${srv_dir} ${syst_dir}${srv_name}/current/ --backup --backup-dir=${syst_dir}${srv_name}/increment/`date +%Y-%m-%d`/
 find ${syst_dir}${srv_name}/increment/ -maxdepth 1 -type d -mtime +30 -exec rm -rf {} \;
